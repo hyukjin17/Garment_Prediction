@@ -154,7 +154,7 @@ Garment_Prediction/
 ## Setup
 
 ```bash
-git clone https://github.com/linbenji/Garment_Prediction.git
+git clone https://github.com/hyukjin17/Garment_Prediction.git
 cd Garment_Prediction
 pip install -r requirements.txt
 ```
