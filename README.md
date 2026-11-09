@@ -47,6 +47,24 @@ The unseen body error (~21mm) is the clearest remaining weakness and the primary
 
 ---
 
+## My Contribution (Jin Chung, @hyukjin17)
+
+I built the project's first two model generations, which set the architecture that later versions extended, and created the evaluation suite used to compare every version.
+
+**v2: Baseline Model**
+- Built the original image-to-drape pipeline: a frozen ViT-S/16 encoder whose image features are concatenated onto each mesh node, feeding a MeshGraphNet that predicts the per-vertex displacement field.
+- Set up the conditioning inputs the rest of the project relies on (template mesh, SMPL betas, fabric physics properties, and size encoding), giving the team a working end-to-end baseline to measure improvements against.
+
+**v3: DINOv2 + FiLM Conditioning**
+- Replaced the ViT backbone with DINOv2-S/14 for stronger dense visual features.
+- Replaced simple node concatenation with **FiLM modulation at every GNN layer**, so image and conditioning signals scale and shift the GNN's hidden features layer by layer instead of being injected once at the input. This FiLM design became the backbone of all later versions (v3.5 through v4.5).
+
+**Evaluation Metrics** (`src/eval.py`)
+- Built the evaluation suite that reports MVE, P90 vertex error, Chamfer distance, Hausdorff distance, voxel IoU, edge strain, normal consistency, and fabric classification accuracy.
+- Structured evaluation around the four generalization conditions (train, unseen material, seen body + material, unseen body), which made it possible to show the model learned generalizable fabric physics and to pinpoint unseen body types as the main remaining weakness.
+
+---
+
 ## Architecture
 
 The model chains a vision encoder into a graph neural network, with fabric and body conditioning injected at each GNN layer via FiLM modulation.
